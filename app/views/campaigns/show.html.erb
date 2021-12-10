@@ -1,0 +1,55 @@
+<h1><%= @campaign.name %> <%= link_to edit_campaign_path(@campaign), class: 'edit_mode' do %> <i class="material-icons">edit</i>  <% end %> </h1>
+<p><em><%= @campaign.desc %> </em></p>
+<hr>
+
+<div class="row">
+  <div class="col-sm-3">
+    <ul id="books">
+      <% if @campaign.books.empty? %>
+        <script type="text/javascript">
+          $.get('/campaigns/<%= @campaign.id %>/books/new.js');
+        </script>
+      <% end %>
+      <% @campaign.books.order(:order).each do |book| %>
+        <%= render 'book', book: book %>
+
+        <% if book.id == @campaign.first_book.id %>
+          <script type="text/javascript">
+            $(function() {
+              toggleCollapse(<%= book.id %>);
+            })
+          </script>
+        <% end %>
+
+      <% end %>
+    </ul>
+    <%= link_to new_campaign_book_path(@campaign), remote: true, class: 'edit_mode' do %>
+      <p><i class="material-icons">add</i> New Book</p>
+    <% end %>
+
+  </div>
+  <div class="col-sm-9">
+    <div id="open_book">
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function toggleCollapse(bookId) {
+    $(function () {
+      $('#book_' + bookId + '_collapse').collapse(`toggle`);
+      $.get('/campaigns/<%= @campaign.id %>/books/' + bookId + '.js');
+    })
+  }
+
+  function navigateToPage(elem) {
+    var pageId = elem.children('select').val();
+    var chapterId = elem.children('input.hidden_field').val();
+    $.get('/chapters/'+ chapterId + '/pages/' + pageId + '.js');
+  }
+
+  function navigateToPageById(pageId, chapterId) {
+    $.get('/chapters/'+ chapterId + '/pages/' + pageId + '.js');
+  }
+</script>

@@ -1,0 +1,236 @@
+@import 'colors';
+
+.spell_card {
+  padding: 10px;
+  background-color: #333;
+  border-radius: 10px;
+  position: absolute;
+  line-height: .9em !important;
+  width: 333px;
+  z-index: 999;
+  opacity: 1;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:hover {
+    cursor: auto;
+  }
+
+  &.active{
+  }
+
+
+  .title {
+    text-align: center;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
+
+    h4 {
+      max-width: calc(100% - 30px);
+      padding-left: 30px;
+    }
+
+    button.btn-close {
+      position: absolute;
+      right: 5px;
+      top: 2px;
+      border: 1px solid #333;
+    }
+  }
+
+  .meta_info {
+    text-align: center;
+    color: #fff;
+
+    p {
+      margin: 5px;
+      font-family: 'Bookinsanity';
+      font-style: italic;
+    }
+  }
+
+  .item_type {
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .spell_info {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    margin-bottom: 10px;
+
+    & > div {
+      width: 50%;
+      border: 1px solid #333;
+      text-align: center;
+
+      p {
+        margin: 0;
+        margin-bottom: 8px;
+      }
+    }
+  }
+  #long_text {
+    min-height: 80%;
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .spell_details, .higher_levels {
+    background-color: #fff;
+    padding: 10px;
+  }
+
+  .higher_levels {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+.gold {
+  background-color: $gold;
+  .spell_info {
+    & > div {
+      border-color: $gold;
+    }
+  }
+  h3 {
+    color: $gold;
+  }
+}
+.barbarian {
+  background-color: $barbarian;
+  .spell_info {
+    & > div {
+      border-color: $barbarian;
+    }
+  }
+  h3 {
+    color: $barbarian;
+  }
+}
+.paladin {
+  background-color: $paladin;
+  .spell_info {
+    & > div {
+      border-color: $paladin;
+    }
+  }
+  h3 {
+    color: $paladin;
+  }
+}
+.bard {
+  background-color: $bard;
+  .spell_info {
+    & > div {
+      border-color: $bard;
+    }
+  }
+  h3 {
+    color: $bard;
+  }
+}
+.ranger {
+  background-color: $ranger;
+  .spell_info {
+    & > div {
+      border-color: $ranger;
+    }
+  }
+  h3 {
+    color: $ranger;
+  }
+}
+.cleric {
+  background-color: $cleric;
+  .spell_info {
+    & > div {
+      border-color: $cleric;
+    }
+  }
+  h3 {
+    color: $cleric;
+  }
+}
+.rogue {
+  background-color: $rogue;
+  .spell_info {
+    & > div {
+      border-color: $rogue;
+    }
+  }
+  h3 {
+    color: $rogue;
+  }
+}
+.druid {
+  background-color: $druid;
+  .spell_info {
+    & > div {
+      border-color: $druid;
+    }
+  }
+  h3 {
+    color: $druid;
+  }
+}
+.sorcerer {
+  background-color: $sorcerer;
+  .spell_info {
+    & > div {
+      border-color: $sorcerer;
+    }
+  }
+  h3 {
+    color: $sorcerer;
+  }
+}
+.fighter {
+  background-color: $fighter;
+  .spell_info {
+    & > div {
+      border-color: $fighter;
+    }
+  }
+  h3 {
+    color: $fighter;
+  }
+}
+.warlock {
+  background-color: $warlock;
+  .spell_info {
+    & > div {
+      border-color: $warlock;
+    }
+  }
+  h3 {
+    color: $warlock;
+  }
+}
+.monk {
+  background-color: $monk;
+  .spell_info {
+    & > div {
+      border-color: $monk;
+    }
+  }
+  h3 {
+    color: $monk;
+  }
+}
+.wizard {
+  background-color: $wizard;
+  .spell_info {
+    & > div {
+      border-color: $wizard;
+    }
+  }
+  h3 {
+    color: $wizard;
+  }
+}

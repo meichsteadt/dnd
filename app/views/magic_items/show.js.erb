@@ -1,0 +1,17 @@
+var element = null
+$('.magic_item.active').remove();
+<% if @monster %>
+  element = $(".monster_card .spell[data-id='<%= @spell.id %>']")
+<% elsif @page %>
+  element = $(".card-body .magic_item[data-id='<%= @magic_item.id %>']")
+<% else %>
+  element = $("#search_results")
+<% end %>
+if(element && element.length > 1) {
+  $(element[0]).append(`<%= render './magic_items/card', magic_item: @magic_item %>`)
+  $(".spell[data-id=<%= @magic_item.id %>]").off("click", addMagicItem);
+}
+else if(element.length > 0) {
+  element.append(`<%= render './magic_items/card', magic_item: @magic_item %>`)
+  $(".spell[data-id=<%= @magic_item.id %>]").off("click", addMagicItem);
+}

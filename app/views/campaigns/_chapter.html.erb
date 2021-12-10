@@ -1,0 +1,11 @@
+<tr class="chapter" id="<%= chapter.id_with_book_id %>">
+  <td>
+    <span class="sparkle">✨</span>
+    <%= link_to "Chapter #{chapter.order}: #{chapter.name}", [book, chapter], remote: true %>
+  </td>
+  <td>
+    <%= link_to book_chapter_path(book, chapter), method: :delete, data: {confirm: "Are you sure?"}, class: 'edit_mode'  do %>
+    <i class="material-icons">delete</i>
+    <% end %>
+  </td>
+</tr>

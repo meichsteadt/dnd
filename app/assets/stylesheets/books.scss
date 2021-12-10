@@ -1,0 +1,70 @@
+.book {
+  border-color: $red !important;
+  border-width: 0px;
+  position: relative;
+  background-color: transparent;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+  padding-bottom: 10px;
+
+  h5 {
+    z-index: 1;
+    button {
+      font-size: 1.1em;
+      text-align: left;
+    }
+  }
+
+  .card-header {
+    position: relative;
+    color: #fff;
+    .bg {
+      background: url('https://t4.ftcdn.net/jpg/03/05/14/25/360_F_305142598_FnNsAjjAYwJkD6FAjnNRZ3Mscr3jOudU.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: repeat;
+      position: absolute;
+      left: 50%;
+      top: auto;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: calc(100% - 20px);
+      height: calc(100% - 10px);
+      z-index: -1;
+      filter: blur(10%) brightness(105%);
+    }
+    border-bottom: 1px solid $dark-brown;
+  }
+
+  .card-body {
+    background-color: transparent;
+  }
+
+  .bg {
+    background: url('https://media.istockphoto.com/photos/natural-wood-texture-picture-id1145602814?b=1&k=20&m=1145602814&s=170667a&w=0&h=geYq61xvfaKOQCn-RAOWTedracWeaSaTk-daFRw5PA8=');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: repeat;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    filter: brightness(105%);
+    // border-radius: inherit;
+    z-index: -1;
+
+    .inlet {
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+    }
+  }
+
+  button {
+    color: $red !important;
+  }
+}

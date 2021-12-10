@@ -1,0 +1,45 @@
+<div class="spell_card gold active" data-id="<%= magic_item.id %> ">
+  <!-- Close Button -->
+
+
+  <!-- Magic Item Name -->
+  <div class="title">
+    <br>
+    <h4><%= magic_item.name  %></h4>
+    <br>
+    <p class="magic_item_controls btn-link" onclick="insertMagicItem('<%= magic_item.id %>')"><i class="material-icons">content_paste_go</i> Insert Magic Item </p>
+    <button type="button" class="btn-close" aria-label="Close"></button>
+  </div>
+
+  <!-- Magic Item meta info -->
+  <div class="meta_info">
+    <p><em><%= magic_item.meta_info[:rarity] %></em></p>
+  </div>
+
+
+  <!-- Wrapping in this section to make it scroll when overflow -->
+  <section id="long_text">
+    <!-- Magic Item Details -->
+    <div class="spell_details">
+      <% magic_item.description.each do |line| %>
+      <p><%= line %> </p>
+      <% end %>
+    </div>
+  </section>
+
+  <h6 class="item_type"><%= magic_item.meta_info[:item_type] %></h6>
+</div>
+
+<script type="text/javascript">
+  //Defined in Spells.js cuz I'm lazy
+  $('.btn-close').on('click', hideActiveMagicItem);
+
+  $(function() {
+    if($("#page_form").length > 0) {
+      $(".magic_item_controls").show();
+    }
+    else {
+      $(".magic_item_controls").hide();
+    }
+  })
+</script>

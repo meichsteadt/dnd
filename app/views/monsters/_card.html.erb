@@ -1,0 +1,146 @@
+<div class="monster_card">
+  <button type="button" class="btn-close" aria-label="Close"></button>
+  <div class="bg"></div>
+  <!-- Monster name and info -->
+  <div class="row">
+    <div class="col-sm-6">
+      <h4 class="title"><%= monster.name %> </h4>
+      <p class="black_text"><em> <%= monster.monster_info %> </em></p>
+    </div>
+    <div class="col-sm-6">
+      <%= render './monsters/controls', monster: monster %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Armor, HP, Speed -->
+  <p>
+    <strong>Armor Class</strong> <span class="std_text"><%= monster.armor_class %></span>
+    <br>
+    <strong>Hit Points</strong> <span class="std_text"><%= monster.hit_points %> (<%= monster.hit_dice %>)</span>
+    <br>
+    <strong>Speed</strong>
+    <ul>
+      <% monster.speed.each do |k,v| %>
+        <li class="std_text"><%= k.capitalize %>, <%= v %></li>
+      <% end %>
+    </ul>
+  </p>
+  <hr>
+
+  <!-- Stats -->
+  <table class="table">
+    <tr>
+      <th>STR</th>
+      <th>DEX</th>
+      <th>CON</th>
+      <th>INT</th>
+      <th>WIS</th>
+      <th>CHA</th>
+    </tr>
+    <tr>
+      <td><%= monster.strength %> (<%= stat_to_mod(monster.strength) %>)  </td>
+      <td><%= monster.dexterity %> (<%= stat_to_mod(monster.dexterity) %>)  </td>
+      <td><%= monster.constitution %> (<%= stat_to_mod(monster.constitution) %>)  </td>
+      <td><%= monster.intelligence %> (<%= stat_to_mod(monster.intelligence) %>)  </td>
+      <td><%= monster.wisdom %> (<%= stat_to_mod(monster.wisdom) %>)  </td>
+      <td><%= monster.charisma %> (<%= stat_to_mod(monster.charisma) %>)  </td>
+    </tr>
+  </table>
+  <hr>
+
+  <!-- Skills, Senses, languages, challenge -->
+  <p>
+    <!-- Skills/Proficiency -->
+    <% monster.parse_proficiencies.each do |proficiency_group| %>
+      <strong><%= proficiency_group.type %></strong> - <%= proficiency_group.parse_proficiencies %>
+      <br>
+    <% end %>
+
+    <!-- Damage Resistances -->
+    <% if monster.damage_resistances.any? %>
+      <strong>Damage Resistances</strong> <%= monster.damage_resistances.join(", ") %>
+      <br>
+    <% end %>
+
+    <!-- Damage Immunities -->
+    <% if monster.damage_immunities.any? %>
+      <strong>Damage Immunities</strong> <%= monster.damage_immunities.join(", ") %>
+      <br>
+    <% end %>
+
+    <!-- Condition Immunities -->
+    <% if monster.condition_immunities.any? %>
+      <strong>Condition Immunities</strong> <%= monster.condition_immunities.map {|e| e['name']}.join(", ") %>
+      <br>
+    <% end %>
+
+    <!-- Senses -->
+    <% if !monster.parse_senses.empty? %>
+      <strong>Senses</strong> <%= monster.parse_senses %>
+      <br>
+    <% end %>
+
+    <!-- Languages -->
+    <% if !monster.languages.empty? %>
+      <strong>Languages</strong> <%= monster.languages %>
+      <br>
+    <% end %>
+
+    <!-- Challenge/XP -->
+    <strong>Challenge </strong><span class="std_text"><%= monster.challenge %> (<%= monster.xp %> XP)</span>
+  </p>
+  <hr>
+
+
+  <!-- Spell Casting -->
+  <div class="black_text special_abilities">
+    <% if monster.special_abilities %>
+      <% monster.special_abilities.each do |ability| %>
+        <% if ability["name"] == "Spellcasting" %>
+          <p><em><strong><%= ability["name"] %></strong></em> - <%= monster.parsed_spellcasting.html_safe %> </p>
+        <% else %>
+          <p><em><strong><%= ability["name"] %></strong></em> - <%= ability["desc"] %> </p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Actions -->
+  <h4>Actions</h4>
+  <div class="black_text">
+    <table class="table">
+      <% monster.actions.each do |action| %>
+        <tr>
+          <th><em><strong><%= action["name"] %></strong></em></th>
+          <td><%= action["desc"] %> </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <% if monster.legendary_actions %>
+    <h4>Legendary Actions</h4>
+    <div class="black_text">
+      <table class="table">
+        <% monster.legendary_actions.each do |action| %>
+          <tr>
+            <th><em><strong><%= action["name"] %></strong></em></th>
+            <td><%= action["desc"] %> </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+</div>
+
+
+<script type="text/javascript">
+  if($("#page_form").length > 0) {
+    $("#monster_controls").show();
+  }
+  else {
+    $("#monster_controls").hide();
+  }
+</script>

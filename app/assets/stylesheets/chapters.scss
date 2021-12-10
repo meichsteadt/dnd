@@ -1,0 +1,41 @@
+.chapter {
+  border-radius: 5%;
+  position: relative;
+
+  a {
+    color: $dark-brown !important;
+  }
+
+  td {
+    padding-left: 30px;
+    font-family: 'Scaly Sans' !important;
+  }
+
+  .sparkle {
+    visibility: hidden;
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.active {
+    td {
+      font-weight: bold;
+    }
+
+    .sparkle {
+      visibility: visible;
+    }
+
+    // &::after {
+    //   left: auto;
+    //   right: 0px;
+    // }
+  }
+}
+
+ul.chapters {
+  max-height: 500px;
+  overflow-y: scroll;
+}

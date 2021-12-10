@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-4">
+    <%= form_tag(chapter_page_path(chapter, 1), remote: true, class: 'page_nav') do |f| %>
+      <%= hidden_field_tag :chapter_id, chapter.id, class: 'hidden_field' %>
+      <%= label_tag :id, 'Go to page #' %>
+      <%= select_tag :id, options_from_collection_for_select(chapter.pages.order(:order), 'id', 'order_with_name', {selected: page.id}), class: 'form-control', onchange: 'navigateToPage($(this).parent())' %>
+    <% end %>
+    <hr>
+    <% if page.prev %>
+      <span class="btn-link" onclick="navigateToPageById(<%= page.prev.id %>, <%= chapter.id %> )">< Previous page</span>
+    <% end %>
+    <%= "|" if page.prev && page.next %>
+    <% if page.next %>
+      <span class="btn-link" onclick="navigateToPageById(<%= page.next.id %>, <%= chapter.id %> )">Next page ></span>
+    <% end %>
+  </div>
+  <div class="col-sm-4 offset-sm-4 edit_mode">
+    <%= link_to new_chapter_page_path(chapter), remote: true do %>
+      <i class="material-icons">add</i> New Page
+    <% end %>
+  </div>
+</div>

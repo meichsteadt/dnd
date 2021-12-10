@@ -1,0 +1,56 @@
+<h1><%= chapter.name_with_number %> </h1>
+<h3><%= page.new_record? ? 'New Page' : "Page #{page.order}" %> </h3>
+<hr>
+<% if page.new_record? %>
+  <%= link_to 'Back', book_chapter_path(chapter.book, chapter), remote: true %>
+<% else %>
+  <%= link_to 'Back', chapter_page_path(chapter, page), remote: true %>
+<% end %>
+
+<%= form_for([chapter, page], remote: true, html: {id: 'page_form'}) do |form| %>
+  <% if page.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+      <ul>
+      <% page.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <% if @chapter && page.others.any? %>
+      <%= form.label :order, 'Page #' %>
+      <%= form.select :order, options_for_select((1..page.max_number), page.order.nil? ? page.max_number : page.order), {}, class: 'form-control' %>
+    <% else %>
+      <p>Page #1</p>
+      <%= form.hidden_field :order, value: 1 %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :html %>
+    <%= form.text_area :html, class: 'form-control', style: 'min-height: 420px' %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= form.submit nil, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+
+
+  $('#page_form').on("keydown", e => {
+    handleKeyDown(e);
+	});
+  $('#page_form').on("keyup", e => {
+    handleKeyUp(e);
+  });
+</script>

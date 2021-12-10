@@ -1,0 +1,29 @@
+<div id="accordion">
+  <div class="card book">
+    <div class="bg"><div class="inlet"></div></div>
+    <div class="card-header" id="book_<%= book.id %>">
+      <div class="bg"></div>
+      <h5 class="mb-0">
+        <button class="btn btn-link" onclick='toggleCollapse(<%= book.id %>)' data-book-id="<%= book.id %>">
+          <%= "Book #{book.order}: #{book.name}" %>
+        </button>
+        <%= link_to campaign_book_path(@campaign, book), method: :delete, data: {confirm: "Are you sure?"}, class: 'edit_mode'  do %>
+          <i class="material-icons">delete</i>
+        <% end %>
+      </h5>
+    </div>
+
+    <div id="book_<%= book.id %>_collapse" class="collapse" aria-labelledby="book_<%= book.id %>" data-parent="#accordion">
+      <div class="card-body">
+        <table class="table chapters">
+          <% book.chapters.order(:order).each do |chapter| %>
+            <%= render './campaigns/chapter', chapter: chapter, book: chapter.book %>
+          <% end %>
+        </table>
+        <tr>
+          <td><%= link_to 'New Chapter', new_book_chapter_path(book), class: 'edit_mode', remote: true %></td>
+        </tr>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+var element = null
+$('.spell.active').remove();
+<% if @monster %>
+  element = $(".monster_card .spell[data-id='<%= @spell.id %>']")
+<% elsif @page %>
+  element = $(".card-body .spell[data-id='<%= @spell.id %>']")
+<% else %>
+  element = $("#search_results")
+<% end %>
+if(element && element.length > 1) {
+  $(element[0]).append(`<%= render './spells/card', spell: @spell %>`)
+  $(".spell[data-id=<%= @spell.id %>]").off("click", addSpell);
+}
+else if(element.length > 0) {
+  element.append(`<%= render './spells/card', spell: @spell %>`)
+  $(".spell[data-id=<%= @spell.id %>]").off("click", addSpell);
+}

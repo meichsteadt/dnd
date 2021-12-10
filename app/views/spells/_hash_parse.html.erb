@@ -1,0 +1,23 @@
+<% if !['index', '_id'].include?(k) %>
+
+  <% if v.class == BSON::Document %>
+  <ul>
+    <% v.each do |kk, vv| %>
+      <%= render 'hash_parse', k: kk, v: vv %>
+    <% end %>
+  </ul>
+  <% elsif v.class == Array %>
+    <% if v.map {|e| e.class}.uniq == [String] %>
+      <li><strong><%=k %> </strong>: <%= v.join(", ") %> </li>
+    <% else %>
+      <li>
+        <strong><%= k %></strong>
+        <% v.each do |vv| %>
+            <%= render 'hash_parse', v: vv, k: k %>
+        <% end %>
+      </li>
+    <% end %>
+  <% else %>
+      <li><strong><%=k %> </strong>: <%= v %> </li>
+  <% end %>
+<% end %>

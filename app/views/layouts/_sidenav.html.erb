@@ -1,0 +1,42 @@
+<nav>
+  <ul>
+    <li><%= link_to 'Campaigns', campaigns_path %>
+    <li><%= link_to 'Characters', characters_path %>
+    <li><%= link_to 'Monsters', monsters_path %>
+    <li><%= link_to 'Spells', spells_path %>
+    <li><%= link_to 'Encounters', encounters_path %>
+  </ul>
+
+  <hr>
+
+  <%= form_tag('/search', remote: true, id: 'search_form') do |f| %>
+    <%= label_tag :query, 'Search' %>
+    <%= text_field_tag :query %>
+  <% end %>
+
+  <div id="search_results">
+    <table></table>
+  </div>
+</nav>
+
+<script type="text/javascript">
+  var timer;
+  var doneTypingInterval = 200; // wait 300 miliseconds
+  var $input = $('#search_form');
+
+  $input.on('keyup', function () {
+    clearTimeout(timer);
+    timer = setTimeout(doneTyping, doneTypingInterval);
+  });
+
+  $input.on('keydown', function () {
+    clearTimeout(timer);
+  });
+
+  function doneTyping() {
+    var val = $input.children('input')[1].value;
+    if(val.length > 1) {
+      Rails.fire($input[0], 'submit');
+    }
+  }
+</script>

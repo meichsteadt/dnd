@@ -1,0 +1,41 @@
+<h1><%= book.name_with_number %> </h1>
+<h3><%= chapter.new_record? ? 'New Chapter' : chapter.name_with_number %> </h3>
+<hr>
+<%= form_for([book, chapter], remote: true,) do |form| %>
+  <% if chapter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
+
+      <ul>
+      <% chapter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <% if @book && chapter.others.any? %>
+      <%= form.label :order, 'Chapter #' %>
+      <%= form.select :order, options_for_select((1..chapter.max_number), chapter.order.nil? ? chapter.max_number : chapter.order), {}, class: 'form-control' %>
+    <% else %>
+      <p>Chapter #1</p>
+      <%= form.hidden_field :order, value: 1 %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :desc %>
+    <%= form.text_field :desc, class: 'form-control' %>
+  </div>
+  <br>
+
+  <div class="actions">
+    <%= form.submit nil, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

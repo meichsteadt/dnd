@@ -1,0 +1,4 @@
+var html = `<%= render 'new_encounter_monster' %> `
+var elem = $(html).appendTo(".encounter_monsters table")
+
+selectMonster($(elem).find('.monster_select')[0])

@@ -1,0 +1,15 @@
+$('#search_results table').empty();
+<% @results.each do |type, _results| %>
+  $('#search_results table').append('<tr><td><%= type.tableize.gsub("_", " ").titlecase %></td></tr>')
+  <% _results.each do |result| %>
+    var html = $((`<%= render "./layouts/search_result", result: result %> `))
+    $('#search_results table').append(html)
+    <% end %>
+<% end %>
+
+if($("#page_form textarea").length > 0) {
+  $(".insert_button").show();
+}
+else {
+  $(".insert_button").hide();
+}

@@ -1,0 +1,99 @@
+@import "bootstrap";
+@import 'monsters';
+@import 'spells';
+@import 'sidenav';
+@import 'books';
+@import 'chapters';
+@import 'page';
+
+@import 'fonts';
+
+body {
+  font-family: 'Scaly Sans';
+  position: relative;
+  min-height: 100vh;
+  margin-bottom: 20px;
+}
+
+textarea {
+  min-height: 420px !important;
+
+  &.sm {
+    min-height: 240px !important;
+  }
+}
+
+.material-icons{
+  display: inline-flex;
+  vertical-align: top;
+}
+
+.btn-link {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, .heading {
+  font-family: 'Mr Eaves Small Caps';
+}
+
+.title {
+  font-family: 'Mr Eaves Small Caps';
+  font-weight: normal;
+}
+
+.quotes, blockquote {
+  font-family: 'Scaly Sans Caps';
+}
+
+.table {
+  td {
+    font-family: 'Bookinsanity';
+  }
+}
+
+.std_text {
+  font-family: 'Bookinsanity';
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -99;
+}
+
+.edit_mode {
+  display: none;
+  &, a {
+    color: $dark-brown !important;
+  }
+}
+
+.btn-red {
+  background-color: $red;
+  &, a {
+    color: #fff !important;
+    text-decoration: none;
+  }
+}
+
+.btn-floating {
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.btn-round {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.toggle_edit_mode {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}

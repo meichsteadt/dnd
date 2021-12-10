@@ -1,0 +1,89 @@
+<%= form_for(encounter) do |f| %>
+  <div class="row">
+    <div class="col-sm-4">
+      <h4>Encounter Deatils</h4>
+      <hr>
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :player_level, 'Intended Player Level' %>
+        <%= f.select :player_level, options_for_select((1..20)), {}, class: 'form-control', id: 'player_level', onchange: 'updateTotalDifficulty($(this).val(), null)'%>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :n_players, 'Number of Players' %>
+        <%= f.select :n_players, options_for_select((1..10)), {}, class: 'form-control', id: 'n_players', onchange: 'updateTotalDifficulty(null, $(this).val())'%>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :notes %>
+        <%= f.text_area :notes, class: 'form-control sm', min_rows: 5 %>
+      </div>
+
+    </div>
+
+    <div class="col-sm-8">
+      <h4>Monsters</h4>
+      <hr>
+
+      <div class="encounter_monsters">
+        <table class="table">
+          <tr>
+            <th>XP</th>
+            <th>Monster</th>
+            <th>HP</th>
+            <!-- <th>Loot Items</th> -->
+            <th colspan="2">Loot Currency</th>
+          </tr>
+          <%= render 'new_encounter_monster' %>
+        </table>
+        <button type="button" class="btn btn-red" onclick="addMonster()">Add Monster</button>
+      </div>
+      <br>
+      <h5><span id="total_xp">Total XP:</span> <div id="difficulty_lvl">()</div></h5>
+    </div>
+  </div>
+  <hr>
+  <div class="form-group">
+    <%= f.submit nil, class: "btn btn-secondary" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  function addMonster() {
+    $.get("<%= encounters_path %>/monsters/new");
+  }
+
+  function selectMonster(elem) {
+    var id = $(elem).val();
+    var count = $(`td[data-id=${id}]`).length
+    $(elem).attr('data-id', id);
+    var difficulty = $(elem).parents('tr').children('.difficulty')
+    var hpInput = $(elem).parents('tr').find('.hp input');
+
+    $.get("<%= monsters_path %>/" + id + ".json").then(response => {
+      hpInput.val(response["hit_points"]);
+      difficulty.text(response["xp"]);
+      updateTotalDifficulty();
+    })
+  }
+
+  function updateTotalDifficulty(playerLevel = null, nPlayers = null) {
+    if(playerLevel == null) playerLevel = $("#player_level").val();
+    if(nPlayers == null) nPlayers = $("#n_players").val();
+    var nMonsters = $('.monster_select').length;
+    var total = 0;
+    $('.difficulty').each(function(x, y) {
+      total += parseFloat($(y).text());
+    })
+    $("#total_xp").text(`Total XP: ${total}`);
+
+    $.get(`
+    <%= encounters_path %>/total_difficulty?n_players=${nPlayers}&player_level=${playerLevel}&total_xp=${total}&n_monsters=${nMonsters}
+    `)
+  }
+
+</script>

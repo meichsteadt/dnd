@@ -1,0 +1,11 @@
+<tr>
+  <td><%= select_tag :monsters, options_from_collection_for_select(Monster.all, "id", "name"), class: 'form-control', id: 'monster_select', onchange: 'selectMonster(this)' %> </td>
+  <td><%= number_field_tag :hp, nil, class: "form-control hp" %></td>
+  <!-- <td></td> -->
+  <td>
+    <%= select_tag :currency_type, options_for_select(Currency.types), class: 'form-control' %>
+  </td>
+  <td>
+    <%= number_field_tag :currency_amount, nil, class: "form-control" %>
+  </td>
+</tr>

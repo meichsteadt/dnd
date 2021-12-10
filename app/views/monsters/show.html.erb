@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<%= link_to 'Back', monsters_path %>
+
+
+<div class="row">
+  <!-- <div class="col-sm-6">
+    <h2><%= @monster.name %> </h2>
+    <ul>
+        <% @monster.attributes.each do |k, v| %>
+          <%= render 'hash_parse', k: k, v: v %>
+        <% end %>
+    </ul>
+  </div> -->
+  <div class="col-sm-6 offset-sm-3">
+    <%= render 'card', monster: @monster %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.spell').on('click', showSpell);
+  })
+</script>

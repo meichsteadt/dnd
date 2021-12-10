@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DndCampaignTool</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
+
+  </head>
+
+  <body>
+    <% if request.url.include?("/campaigns") %>
+      <%= link_to "#{request.url.split("?").first}?edit_mode=#{!@edit_mode}" do %>
+        <button class="btn btn-red btn-floating toggle_edit_mode">
+          <%= toggle_edit_mode_text(@edit_mode).html_safe  %>
+        </button>
+      <% end %>
+    <% end %>
+
+    <div class="overlay"></div>
+
+    <div class="sidenav">
+      <%= render './layouts/sidenav' %>
+    </div>
+
+    <div class="container">
+      <p id="notice"><%= notice %></p>
+      <p id="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
+
+    <div id="monster_card"></div>
+    <div id="ecounter_card"></div>
+
+    <% if @edit_mode %>
+      <style media="screen">
+        .edit_mode {
+          display: inline;
+        }
+      </style>
+    <% end %>
+  </body>
+</html>

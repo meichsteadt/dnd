@@ -1,0 +1,10 @@
+var html = `<%= render './campaigns/page', book: @book, chapter: @book.first_chapter, page: @book.first_page %> `
+$("#open_book").html(html);
+
+$('.chapter.active').removeClass('active');
+$('#<%= @book.first_chapter.id_with_book_id %>').addClass('active');
+
+<% if @append %>
+  var addedBook = `<%= render './campaigns/book', book: @book %>`
+  $("#books").append(addedBook);
+<% end %>

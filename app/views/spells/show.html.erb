@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-sm-6">
+
+    <h2><%= @spell.name %> </h2>
+    <ul>
+      <% @spell.attributes.each do |k, v| %>
+      <%= render 'hash_parse', k: k, v: v %>
+      <% end %>
+    </ul>
+
+  </div>
+  <div class="col-sm-6">
+    <%= render 'card', spell: @spell %>
+  </div>
+</div>

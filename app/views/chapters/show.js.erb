@@ -1,0 +1,12 @@
+var html = `<%= render './campaigns/page', book: @chapter.book, chapter: @chapter, page: @chapter.first_page %> `
+$("#open_book").html(html);
+
+$('.chapter.active').removeClass('active');
+$('#<%= @chapter.id_with_book_id %>').addClass('active');
+
+<% if @append %>
+  var addedChapter = `<%= render './campaigns/chapter', chapter: @chapter, book: @book %> `
+  $("#book_<%= @book.id %>_collapse .chapters").append(addedChapter);
+<% end %>
+
+$('#<%= @chapter.id_with_book_id %>').addClass('active');

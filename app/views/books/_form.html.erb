@@ -1,0 +1,48 @@
+<h1><%= @campaign.name %> </h1>
+<h3><%= book.new_record? ? 'New Book' : book.name_with_number %> </h3>
+<hr>
+<%= form_for([@campaign, book], id: 'book_form') do |form| %>
+  <% if book.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+
+      <ul>
+      <% book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <div class="form-group col-sm-4">
+      <% if @campaign && book.others.any? %>
+        <%= form.label :order, 'Book #' %>
+        <%= form.select :order, options_for_select((1..book.max_number), book.order.nil? ? book.max_number : book.order), {}, class: 'form-control' %>
+      <% else %>
+        <p>Book #1</p>
+        <%= form.hidden_field :order, value: 1 %>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= form.label :desc %>
+      <%= form.text_field :desc, class: 'form-control' %>
+    </div>
+    <br>
+    <%= form.submit nil, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    $("book_form").submit(function(event) {
+      event.preventDefault();
+      alert('This is alerting');
+      $(this).unbind('submit').submit();
+    })
+  })
+</script>

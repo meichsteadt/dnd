@@ -1,0 +1,19 @@
+<tr>
+  <td class="difficulty">0</td>
+  <td><%= select_tag :monsters, options_from_collection_for_select(Monster.all, "id", "name", selected: Monster.first._id.to_s), class: 'form-control monster_select', id: 'monster_select', onchange: 'selectMonster(this)' %> </td>
+  <td class="hp"><%= number_field_tag :hp, nil, class: "form-control" %></td>
+  <!-- <td></td> -->
+  <td>
+    <%= select_tag :currency_type, options_for_select(Currency.types), class: 'form-control' %>
+  </td>
+  <td>
+    <%= number_field_tag :currency_amount, nil, class: "form-control" %>
+  </td>
+</tr>
+<script type="text/javascript">
+  $(function () {
+    selectMonster($('.monster_select')[0]);
+    $('.monster_select').select2();
+
+  })
+</script>

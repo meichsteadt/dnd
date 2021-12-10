@@ -1,0 +1,11 @@
+<tr class="search_result">
+  <td class="<%= result.type.underscore %> search_result" id="<%= result.id %>" data-id='<%= result.id %>'>
+    <%= link_to result.route, remote: true do %>
+      <%= result.emoji.html_safe + " " + result.name %>
+    <% end %>
+  </td>
+  <td class="edit_mode insert_button">
+    <i class="material-icons btn-link" onclick="insertElement('<%= result.id %>', '<%= result.type.underscore %>')">content_paste_go</i>
+  </td>
+</tr>
+<hr>
