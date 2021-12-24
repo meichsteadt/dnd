@@ -1,0 +1,12 @@
+function showMap(elem) {
+  var id = $(elem.target).data('id');
+  var campaignId = $(elem.target).data('campaign');
+  $.get('/campaigns/' + campaignId +'/maps/' + id + '.js');
+}
+
+function showChapter(elem) {
+  var id = $(elem.target).data('id');
+  var campaignId = $(elem.target).data('campaign');
+  var bookId = $(elem.target).data('book');
+  $.get('/books/' + bookId + '/chapters/' + id + '.js');
+}

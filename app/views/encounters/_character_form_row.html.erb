@@ -1,0 +1,20 @@
+<tr id="<%= character._id.to_s %>" class="character">
+  <td>
+    <p id='html_character_<%= character._id.to_s %>' class='html_character' data-id='<%= character.id.to_s %>'>
+      <%= character.name %>
+    </p>
+  </td>
+  <td>
+    <%= number_field_tag 'encounter[characters[]initiative]',nil, class: 'form-control character-initiative' %>
+  </td>
+  <td class="current_health">
+    <%= character.get_health %>
+  </td>
+  <td>
+    <%= text_field_tag 'encounter[characters[]current_health]', nil, class: 'form-control hp', value: nil %>
+  </td>
+  <td>
+    <%= character.armor_class %>
+  </td>
+  <%= hidden_field_tag 'encounter[characters[]id]', character._id.to_s %>
+</tr>

@@ -2,11 +2,66 @@ class Encounter
   include Mongoid::Document
   store_in collection: "encounters"
   field :name, type: String
+  field :index, type: String
   field :monsters, type: EncounterMonsterArray
+  field :npcs, type: EncounterMonsterArray
+  field :characters, type: CharacterArray
   field :initiatives, type: Array
   field :notes, type: String
   field :player_level, type: Integer
   field :n_players, type: Integer
+  field :started, type: Boolean
+
+  def find_monster(id)
+    self.monsters.filter {|e| e._id.to_s == id}.first
+  end
+
+  def find_character(id)
+    self.characters.filter {|e| e._id.to_s == id}.first
+  end
+
+  def find_npc(id)
+    self.npcs.filter {|e| e._id.to_s == id}.first
+  end
+
+  def reset
+    _monsters = self.monsters
+    __monsters ||= []
+    monster_map = _monsters.map do |monster|
+      monster.initiative = nil;
+      monster.current_health = monster.monster.hit_points;
+      monster
+    end
+    _npcs = self.npcs
+    __npcs ||= []
+    npc_map = _npcs.map do |npc|
+      npc.initiative = nil;
+      npc.current_health = npc.monster.hit_points;
+      npc
+    end
+    _characters = self.characters
+    __characters ||= []
+    character_map = _characters.map do |character|
+      _character = Character.find(character.id)
+      _character.initiative = nil;
+      _character.save
+    end
+    self.update(monsters: EncounterMonsterArray[*monster_map], characters: CharacterArray[*character_map],npcs: EncounterMonsterArray[*npc_map], started: true)
+  end
+
+  def encounter_characters
+    (monsters.to_a + characters.to_a + npcs.to_a).sort_by {|e| e["initiative"] ? -(e["initiative"]) : 0}
+  end
+
+  def add_characters(*characters)
+    self.characters = CharacterArray[*Array[characters].flatten + self.characters]
+    self.save
+  end
+
+  def remove_characters(*characters)
+    self.characters = CharacterArray[*self.characters - Array[characters].flatten]
+    self.save
+  end
 
   def self.challenge_table
     { '1' => [25, 50, 75, 100],

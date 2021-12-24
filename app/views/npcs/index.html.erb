@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Npcs</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>NPC</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @npcs.each do |npc| %>
+      <tr>
+        <td><%= link_to npc.name, npc %></td>
+        <td><%= link_to 'Edit', edit_npc_path(npc) %></td>
+        <td><%= link_to 'Destroy', npc, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Npc', new_npc_path %>

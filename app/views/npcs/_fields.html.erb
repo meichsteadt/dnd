@@ -1,0 +1,62 @@
+<div class="row">
+  <h4>Info</h4>
+  <% (Npc.accepted_keys - Npc.ability_score_fields - Npc.hidden_attributes - [:name]).each do |field| %>
+    <% if field.to_s == 'languages' %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", 'Language' %>
+      <%= select_tag "npc[#{field}]", options_from_collection_for_select(Language.all.order(name: :asc), 'name', 'name', selected: [npc.languages]), class: 'form-control', required: true %>
+    </div>
+    <% elsif field.to_s == 'base' %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", 'Base Creature' %>
+      <%= select_tag "npc[monster_id]", options_from_collection_for_select(Monster.all.order(name: :asc), 'id', 'name', selected: [npc.base._id.to_s]), class: 'form-control', id: 'monsters' %>
+    </div>
+    <% elsif field.to_s == 'description' %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", field.to_s.gsub("_", " ").capitalize %>
+      <%= text_area_tag "npc[#{field}]", npc[field.to_sym], class: 'form-control', style: 'min-height: auto !important;' %>
+    </div>
+    <% elsif field.to_s == 'subtype' %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", 'Race' %>
+      <%= select_tag "npc[#{field}]", options_for_select(Npc.subtypes, selected: [npc.type]), class: 'form-control', required: true %>
+    </div>
+    <% elsif field.to_s == 'alignment' %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", field.to_s.gsub("_", " ").capitalize %>
+      <%= select_tag "npc[#{field}]", options_from_collection_for_select(Alignment.all.order(name: :asc), 'name', 'name', selected: [npc.alignment]), class: 'form-control', required: true %>
+    </div>
+    <% else %>
+    <div class="form-group col-sm-5">
+      <%= label_tag "npc[#{field}]", field.to_s.gsub("_", " ").capitalize %>
+      <%= text_field_tag "npc[#{field}]", npc[field.to_sym], class: 'form-control', required: true %>
+    </div>
+    <% end %>
+  <% end %>
+</div>
+<hr>
+<div class="row">
+  <h4>Ability Scores</h4>
+  <% Npc.ability_score_fields.each do |field| %>
+  <div class="form-group col-sm-5">
+    <%= label_tag "npc[#{field}]", field.to_s.gsub("_", " ").capitalize %>
+    <%= text_field_tag "npc[#{field}]", npc[field.to_sym], class: 'form-control', required: true %>
+  </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('#monsters').select2();
+
+    $('#monsters').on('change', changeMonster)
+  })
+
+  function changeMonster(elem) {
+    var monsterId = $(elem.target).val();
+    $('#hidden_monster_form').find('input').val(monsterId);
+    console.log(monsterId)
+    Rails.fire($('#hidden_monster_form')[0], 'submit')
+  }
+
+</script>

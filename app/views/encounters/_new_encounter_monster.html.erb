@@ -1,19 +1,26 @@
+<% @timestamp = Time.now.strftime("%Y%m%d%H%M%S%L") %>
 <tr>
   <td class="difficulty">0</td>
-  <td><%= select_tag :monsters, options_from_collection_for_select(Monster.all, "id", "name", selected: Monster.first._id.to_s), class: 'form-control monster_select', id: 'monster_select', onchange: 'selectMonster(this)' %> </td>
-  <td class="hp"><%= number_field_tag :hp, nil, class: "form-control" %></td>
+  <td>
+    <%= select_tag 'encounter[encounter_monsters[]monster_id]', options_from_collection_for_select(Monster.all, "id", "name", selected: Monster.first._id.to_s, disabled: [nil]), class: 'form-control monster_select', id: @timestamp, onchange: 'selectMonster(this)' %>
+
+
+
+  </td>
+  <td class="hp"><%= number_field_tag 'encounter[encounter_monsters[]hp]', nil, class: "form-control" %></td>
   <!-- <td></td> -->
   <td>
-    <%= select_tag :currency_type, options_for_select(Currency.types), class: 'form-control' %>
+    <%= select_tag 'encounter[encounter_monsters[]currency_type]', options_for_select(Currency.types), class: 'form-control' %>
   </td>
   <td>
-    <%= number_field_tag :currency_amount, nil, class: "form-control" %>
+    <%= number_field_tag 'encounter[encounter_monsters[]currency_amount]', nil, class: "form-control" %>
   </td>
+  <td><i class="material-icons btn-link" onclick="removeRow(this)">delete</i></td>
 </tr>
 <script type="text/javascript">
-  $(function () {
-    selectMonster($('.monster_select')[0]);
-    $('.monster_select').select2();
 
+  $(function () {
+    $("#<%= @timestamp %>").select2();
+    selectMonster($('.monster_select')[0]);
   })
 </script>

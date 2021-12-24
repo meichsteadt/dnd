@@ -1,0 +1,16 @@
+<div class="row">
+  <% @magic_items.each do |item| %>
+    <div class="col-sm-3">
+      <h4><%= link_to item.name, item, remote: true %></h4>
+    </div>
+    <div class="col-sm-9">
+      <div class="meta_info">
+        <p><em><%= item.meta_info[:rarity] %></em></p>
+      </div>
+      <% item.description.each do |line| %>
+        <p><%= line %> </p>
+      <% end %>
+    </div>
+    <hr>
+  <% end %>
+</div>

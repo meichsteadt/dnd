@@ -1,0 +1,31 @@
+<%= form_with(model: npc, local: true) do |form| %>
+  <% if npc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(npc.errors.count, "error") %> prohibited this npc from being saved:</h2>
+
+      <ul>
+      <% npc.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h4>Name</h4>
+  <div class="form-group col-sm-5">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control', required: true %>
+  </div>
+  <hr>
+  <div id="fields">
+    <%= render 'fields', npc: npc, monster: @monster, form: form %>
+  </div>
+  <br>
+  <%= hidden_field_tag :_type, "Npc" %> 
+  <div class="actions">
+    <%= form.submit nil, class: 'btn btn-red' %>
+  </div>
+<% end %>
+
+<%= form_tag(@path + '.js', method: :get, remote: true, id: 'hidden_monster_form') do |f| %>
+  <%= hidden_field_tag :monster_id, nil %>
+<% end %>

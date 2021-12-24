@@ -1,0 +1,22 @@
+<tr id="<%= npc.id.to_s %>" class="monster">
+  <td>
+    <a id='html_monster_<%= npc.monster._id.to_s %> ' class='html_monster btn-link' data-id='<%= npc.monster.id.to_s %>'>
+      <%= npc.name %>
+    </a>
+  </td>
+  <td>
+    <%= number_field_tag 'encounter[encounter_npcs[]initiative]',nil, class: 'form-control monster-initiative' %>
+
+  </td>
+  <td class="current_health">
+    <%= npc.current_health %>
+  </td>
+  <td>
+    <%= text_field_tag 'encounter[encounter_npcs[]current_health]', nil, class: 'form-control hp', value: nil %>
+  </td>
+  <td>
+    <%= npc.monster.armor_class %>
+  </td>
+  <%= hidden_field_tag 'encounter[encounter_npcs[]id]', npc._id.to_s %>
+
+</tr>

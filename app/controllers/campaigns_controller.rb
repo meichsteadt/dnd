@@ -3,7 +3,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns or /campaigns.json
   def index
-    @campaigns = Campaign.all
+    @campaigns = current_user.campaigns
   end
 
   # GET /campaigns/1 or /campaigns/1.json
@@ -12,7 +12,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/new
   def new
-    @campaign = Campaign.new
+    @campaign = current_user.campaigns.new
   end
 
   # GET /campaigns/1/edit
@@ -21,7 +21,7 @@ class CampaignsController < ApplicationController
 
   # POST /campaigns or /campaigns.json
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = current_user.campaigns.new(campaign_params)
 
     respond_to do |format|
       if @campaign.save
@@ -38,7 +38,7 @@ class CampaignsController < ApplicationController
   def update
     respond_to do |format|
       if @campaign.update(campaign_params)
-        format.html { redirect_to @campaign, notice: "Campaign was successfully updated." }
+        format.html { redirect_to edit_campaign_path @campaign, notice: "Campaign was successfully updated." }
         format.json { render :show, status: :ok, location: @campaign }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,11 +59,11 @@ class CampaignsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
-      @campaign = Campaign.find(params[:id])
+      @campaign = current_user.campaigns.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def campaign_params
-      params.require(:campaign).permit(:name, :desc)
+      params.require(:campaign).permit(:name, :desc, :notes)
     end
 end

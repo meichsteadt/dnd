@@ -1,4 +1,12 @@
-var html = `<%= render 'new_encounter_monster' %> `
-var elem = $(html).appendTo(".encounter_monsters table")
+<% if @monster_type == 'monster' %>
+  var html = `<%= render 'new_encounter_monster' %> `
+  var elem = $(html).appendTo(".encounter_monsters table")
+  selectMonster($(elem).find('.monster_select')[0])
+<% else %>
 
-selectMonster($(elem).find('.monster_select')[0])
+  var html = `<tr>
+    <td>
+      <%= select_tag :id, options_from_collection_for_select(current_user.npcs, 'id', 'name'),include_blank: 'Select NPC', class: 'form-control', id: 'npc_select' %>
+    </td>`
+  var elem = $(html).appendTo(".encounter_npcs table")
+<% end %>

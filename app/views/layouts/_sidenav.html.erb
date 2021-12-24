@@ -1,10 +1,13 @@
 <nav>
+  <i class="material-icons" onclick="hideNav()">close</i>
   <ul>
     <li><%= link_to 'Campaigns', campaigns_path %>
     <li><%= link_to 'Characters', characters_path %>
     <li><%= link_to 'Monsters', monsters_path %>
     <li><%= link_to 'Spells', spells_path %>
     <li><%= link_to 'Encounters', encounters_path %>
+    <li><%= link_to 'NPC\'s', npcs_path %>
+    <li><%= link_to 'Maps', '/inkarnate' %>
   </ul>
 
   <hr>
@@ -19,9 +22,14 @@
   </div>
 </nav>
 
+<div class="top-nav">
+  <i id="close" class="material-icons" onclick="showNav()">menu</i>
+  <h2>DnD Tool</h2>
+</div>
+
 <script type="text/javascript">
   var timer;
-  var doneTypingInterval = 200; // wait 300 miliseconds
+  var doneTypingInterval = 300; // wait 300 miliseconds
   var $input = $('#search_form');
 
   $input.on('keyup', function () {
@@ -33,10 +41,27 @@
     clearTimeout(timer);
   });
 
+  function showNav() {
+    $('.overlay').addClass('active');
+    $('.overlay').on("click", hideNav);
+    $('nav').addClass('active');
+    $('body').addClass('overlay-active');
+  }
+
+  function hideNav() {
+    $('.overlay').removeClass('active');
+    $('.overlay').off("click", hideNav);
+    $('nav').removeClass('active');
+    $('body').removeClass('overlay-active');
+  }
+
   function doneTyping() {
     var val = $input.children('input')[1].value;
     if(val.length > 1) {
       Rails.fire($input[0], 'submit');
+    }
+    else {
+      $("#search_results table").empty()
     }
   }
 </script>

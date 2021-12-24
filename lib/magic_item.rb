@@ -12,6 +12,10 @@ class MagicItem
     {item_type: item_type, rarity: rarity}
   end
 
+  def rarity
+    self.desc[0].split(", ")[1]
+  end
+
   def description
     self.desc[1..-1]
   end

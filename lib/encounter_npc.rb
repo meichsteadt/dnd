@@ -1,0 +1,2 @@
+class EncounterNpc < EncounterMonster
+end

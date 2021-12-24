@@ -11,9 +11,7 @@ function handleKeyDown(e) {
       meta_pressed = true;
       break;
     case 'Enter':
-      if(meta_pressed) {
-        Rails.fire($('#page_form')[0], 'submit');
-      }
+
       break;
     case 'Tab':
       if(shift_pressed) {
@@ -62,14 +60,14 @@ function expand(init) {
   let _remainingInput = init;
 
   if(init.match(/\./)) {
-    _class = init.match(/(?<=\.)\w*/)[0]
+    _class = init.match(/(?<=\.)[\w-]*/)[0]
   }
   if(init.match(/\#/)) {
-    _id = init.match(/(?<=#)\w*/)[0]
+    _id = init.match(/(?<=#)[\w-]*/)[0]
   }
 
   if(init.match(/{.*}/)) {
-    _interiorText = init.match(/(?<={)\w*(?=})/)[0] + "__$__"
+    _interiorText = init.match(/(?<={)[\w-]*(?=})/)[0] + "__$__"
   }
   else {
     _interiorText = "__$__"
@@ -97,11 +95,16 @@ function handleHtmlElement(elementName, html) {
     case 'ul':
       return html.replace("__$__", "\n\t<li>__$__</li>\n")
       break;
+    case 'ol':
+      return html.replace("__$__", "\n\t<li>__$__</li>\n")
+      break;
     case 'a':
       return html.replace("<a", "<a href=''")
       break;
-    case 'p':
-      return html
+    case 'hr':
+      return html.replace("</hr>", "")
+    case 'br':
+      return html.replace("</br>", "")
       break;
     default:
       return html;
@@ -111,52 +114,52 @@ function handleHtmlElement(elementName, html) {
 }
 
 function appendHTML(element, replace = true) {
-  var currentValue = $('#page_form textarea').val()
-  var selectionStart = $('#page_form textarea')[0].selectionStart; //Get the current cursor position
+  var currentValue = $('#page_form textarea, .wysiwyg textarea').val()
+  var selectionStart = $('#page_form textarea, .wysiwyg textarea')[0].selectionStart; //Get the current cursor position
 
   //Delete original element
   var _lookBehind = lookBehind();
   var deleteStart = selectionStart - _lookBehind.length;
   let deleteEnd = selectionStart;
   if(replace) {
-    $('#page_form textarea').selectRange(deleteStart, selectionStart);
+    $('#page_form textarea, .wysiwyg textarea').selectRange(deleteStart, selectionStart);
     document.execCommand('cut', false); //Add it to the value
     // Add new element
-    currentValue = $('#page_form textarea').val()
+    currentValue = $('#page_form textarea, .wysiwyg textarea').val()
     var combinedText = currentValue.slice(0, deleteStart) + element + currentValue.slice(deleteStart); //Splice in the new element into the existing one
-    $('#page_form textarea').selectRange(deleteStart);
+    $('#page_form textarea, .wysiwyg textarea').selectRange(deleteStart);
 
     var range = combinedText.indexOf("__$__"); //Get the actual index of the selector
     document.execCommand('insertText', false, element.replace("__$__", "")); //Add it to the value
-    $('#page_form textarea').selectRange(range);
+    $('#page_form textarea, .wysiwyg textarea').selectRange(range);
   }
   else {
-    $('#page_form textarea').selectRange(selectionStart);
+    $('#page_form textarea, .wysiwyg textarea').selectRange(selectionStart);
     var combinedText = currentValue.slice(0, selectionStart) + element + currentValue.slice(selectionStart);
     var range = combinedText.indexOf("__$__");
     document.execCommand('insertText', false, element.replace("__$__", "")); //Add it to the value
-    $('#page_form textarea').selectRange(range);
+    $('#page_form textarea, .wysiwyg textarea').selectRange(range);
   }
 }
 
 function removeTab() {
-  var currentValue = $('#page_form textarea').val();
+  var currentValue = $('#page_form textarea, .wysiwyg textarea').val();
   let _currentSelection = currentSelection();
 
   if(currentValue[_currentSelection - 1].match(/\t/)) {
     var newVal = currentValue.slice(0, _currentSelection - 1) + currentValue.slice(_currentSelection)
-    $('#page_form textarea').val(newVal);
-    $("#page_form textarea").selectRange(_currentSelection - 1);
+    $('#page_form textarea, .wysiwyg textarea').val(newVal);
+    $("#page_form textarea, .wysiwyg textarea").selectRange(_currentSelection - 1);
   }
 }
 
 function currentSelection(offset = 0) {
-  return $('#page_form textarea')[0].selectionStart + offset;
+  return $('#page_form textarea, .wysiwyg textarea')[0].selectionStart + offset;
 }
 
 function lookBehind() {
-  var selectionStart = $('#page_form textarea')[0].selectionStart; //Get the current cursor position
-  var val = $('#page_form textarea').val();
+  var selectionStart = $('#page_form textarea, .wysiwyg textarea')[0].selectionStart; //Get the current cursor position
+  var val = $('#page_form textarea, .wysiwyg textarea').val();
   var behind = val[selectionStart - 1];
   if(!behind || behind.match(/[>\s]/)) {
     return false;
@@ -205,11 +208,11 @@ $.fn.selectRange = function(start, end = null) {
 
 
 function insertMonster(monsterId) {
-  insertElement(id, "monster")
+  insertElement(monsterId, "monster")
 }
 
 function insertSpell(spellId) {
-  insertElement(id, "spell")
+  insertElement(spellId, "spell")
 }
 
 function insertMagicItem(id) {
@@ -217,11 +220,11 @@ function insertMagicItem(id) {
 }
 
 function insertElement(id, type) {
-  if($("#page_form textarea").length == 0) {
+  if($("#page_form textarea, .wysiwyg textarea").length == 0) {
     return;
   }
-  $("#page_form textarea").focus();
-  $("#page_form textarea").selectRange(lastCursorPosition);
+  $("#page_form textarea, .wysiwyg textarea").focus();
+  $("#page_form textarea, .wysiwyg textarea").selectRange(lastCursorPosition);
   appendHTML(`<${type} id="${id}"></${type}>__$__`, false);
 
   switch (type) {

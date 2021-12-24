@@ -27,6 +27,10 @@ class SpellsController < ApplicationController
   def edit
   end
 
+  def iframe
+
+  end
+
   # POST /spells or /spells.json
   def create
     @spell = Spell.new(spell_params)

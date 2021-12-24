@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Character</th>
+          <th>Class</th>
+        </tr>
+      </thead>
+      <tbody id="players">
+        <% @players.each do |character| %>
+          <%= render 'player', character: character %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-12">
+    <div id="current_display"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var room = joinRoom('<%= @campaign.room %>', '<%= current_character._id.to_s %>');
+  $(function() {
+    $.get(`/rooms/<%= @campaign.room %>.js`);
+  })
+</script>

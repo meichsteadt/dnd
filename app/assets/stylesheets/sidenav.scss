@@ -3,6 +3,15 @@ $nav-width: 300px;
 body {
   margin-left: $nav-width;
   position: relative;
+  overflow-y: auto;
+
+  @media(max-width: $med) {
+    margin-left: 0;
+  }
+
+  &.overlay-active {
+    overflow-y: hidden !important;
+  }
 }
 
 nav {
@@ -16,6 +25,35 @@ nav {
   border-right: 1px solid #eee;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
   z-index: 99;
+  transition: left .3s ease;
+  background-color: #fff;
+
+  i:not(.search_result) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    @media(min-width: $med) {
+      & {
+        display: none !important;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @media(max-width: $med) {
+    & {
+      left: -$nav-width;
+    }
+  }
+
+  &.active {
+    left: 0 !important;
+    z-index: 999 !important;
+  }
 }
 
 #search_results {
@@ -47,5 +85,31 @@ nav {
     .spell_card {
       top: 50px;
     }
+  }
+}
+
+.top-nav {
+  height: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
+  i#close {
+    width: 10%;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  h2 {
+    text-align: center;
+  }
+  @media(min-width: $med) {
+    display: none;
   }
 }

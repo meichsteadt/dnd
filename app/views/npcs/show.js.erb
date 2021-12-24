@@ -1,0 +1,7 @@
+hideActiveMonsterCard();
+<% if @show %>
+  var html = `<%= render './monsters/card', monster: @npc %>`;
+  $("#monster_card").html(html)
+  $('.spell').on('click', addSpell);
+  $('.btn-close').on('click', hideActiveMonsterCard);
+<% end %>

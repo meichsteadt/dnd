@@ -1,6 +1,10 @@
 class EncounterMonsterArray < Array
   attr_reader :encounter_monsters
 
+  def find_by_id(id)
+    self.monsters.find_by {|e| e._id.to_s == id}.first
+  end
+
   def mongoize
     self.map(&:mongoize)
   end

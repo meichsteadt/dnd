@@ -19,11 +19,11 @@ class LibLoader
 
 
 
-      spawn("printf 'class #{class_name.gsub("-", "")}
-  include Mongoid::Document
-  store_in collection: \"#{lower_class_name.pluralize.gsub('_', '-')}\"
-  #{fields}
-end' > ./lib/#{lower_class_name}.rb;")
+          spawn("printf 'class #{class_name.gsub("-", "")}
+      include Mongoid::Document
+      store_in collection: \"#{lower_class_name.pluralize.gsub('_', '-')}\"
+      #{fields}
+    end' > ./lib/#{lower_class_name}.rb;")
     end
   end
 end

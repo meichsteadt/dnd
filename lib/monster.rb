@@ -2,39 +2,43 @@ class Monster
   include Mongoid::Document
   store_in collection: "monsters"
   field :index, type: String
-	field :name, type: String
-	field :size, type: String
-	field :type, type: String
-	field :subtype, type: NilClass
-	field :alignment, type: String
-	field :armor_class, type: Integer
-	field :hit_points, type: Integer
-	field :hit_dice, type: String
-	field :speed, type: Hash
-	field :strength, type: Integer
-	field :dexterity, type: Integer
-	field :constitution, type: Integer
-	field :intelligence, type: Integer
-	field :wisdom, type: Integer
-	field :charisma, type: Integer
-	field :proficiencies, type: Array
-	field :damage_vulnerabilities, type: Array
-	field :damage_resistances, type: Array
-	field :damage_immunities, type: Array
-	field :condition_immunities, type: Array
-	field :senses, type: Hash
-	field :languages, type: String
-	field :challenge_rating, type: Float
-	field :xp, type: Integer
-	field :special_abilities, type: Array
-	field :actions, type: Array
-	field :legendary_actions, type: Array
-	field :url, type: String
+  field :name, type: String
+  field :description, type: String
+  field :size, type: String
+  field :type, type: String
+  field :subtype, type: NilClass
+  field :alignment, type: String
+  field :armor_class, type: Integer
+  field :hit_points, type: Integer
+  field :hit_dice, type: String
+  field :speed, type: Hash
+  field :strength, type: Integer
+  field :dexterity, type: Integer
+  field :constitution, type: Integer
+  field :intelligence, type: Integer
+  field :wisdom, type: Integer
+  field :charisma, type: Integer
+  field :proficiencies, type: Array
+  field :damage_vulnerabilities, type: Array
+  field :damage_resistances, type: Array
+  field :damage_immunities, type: Array
+  field :condition_immunities, type: Array
+  field :reactions, type: Array
+  field :senses, type: Hash
+  field :languages, type: String
+  field :challenge_rating, type: Float
+  field :xp, type: Integer
+  field :special_abilities, type: Array
+  field :actions, type: Array
+  field :legendary_actions, type: Array
+  field :url, type: String
+  field :_type, type: String
+  field :base, type: Monster
+  field :user_id, type: Integer
 
   def monster_info
     "#{self.size} #{self.type} (#{self.subtype}), #{self.alignment}".gsub(" ()", "")
   end
-
   def parsed_spellcasting
     desc = self.special_abilities.find {|e| e["name"] == "Spellcasting"}["desc"]
     spell_texts = desc.split("\n-")[1..-1]

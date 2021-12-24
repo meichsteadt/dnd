@@ -1,0 +1,26 @@
+<div id="notes" class="card">
+  <div class="bg"><div class="inlet"></div></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-9">
+        <h4 class="subtext  red-text">Notes</h4>
+      </div>
+      <div class="col-sm-3">
+        <p><%= link_to edit_campaign_path(campaign), class: "brown-text" do %>
+          <i class="material-icons">edit</i> Edit Campaign
+        <% end %></p>
+      </div>
+    </div>
+      <hr>
+      <div id="page_text" class="card-text"><%= campaign.parsed_html.html_safe %></div>
+      <hr>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(".html_monster").on("click", showMonsterCard);
+  $(".spell").on("click", addSpell);
+  $(".magic_item").on("click", addMagicItem);
+  $(".encounter").on("click", showEncounter);
+  $(".map").on("click", showMap);
+</script>

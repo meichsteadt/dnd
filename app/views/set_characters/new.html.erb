@@ -1,0 +1,12 @@
+<%= form_tag(set_characters_path) do |f| %>
+<div class="col-sm-4">
+  <%= label_tag :character_id, 'Character' %>
+  <%= select_tag :character_id, options_from_collection_for_select(current_user.characters, 'id', 'name'), required: true, class: 'form-control col-sm-4' %>
+  <br>
+  <%= hidden_field_tag :redirect, @redirect %>
+  <%= submit_tag 'Select Character', class: 'btn btn-red' %>
+</div>
+<% end %>
+<br>
+<br>
+<%= link_to 'New Character', new_character_path(redirect: @redirect) %>

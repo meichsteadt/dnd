@@ -7,4 +7,8 @@ class MagicItemsController < ApplicationController
       format.js
     end
   end
+
+  def index
+    @magic_items = MagicItem.all
+  end
 end

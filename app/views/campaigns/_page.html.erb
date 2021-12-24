@@ -69,6 +69,10 @@
   $(".html_monster").on("click", showMonsterCard);
   $(".spell").on("click", addSpell);
   $(".magic_item").on("click", addMagicItem);
+  $(".encounter").data('room', '<%= @campaign.room %>')
+  $(".encounter").on("click", showEncounter);
+  $(".map").on("click", showMap);
+  $(".chapter").on("click", showChapter);
 
   $(function() {
     $('#page_form textarea').focusout(function () {

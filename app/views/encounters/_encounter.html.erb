@@ -1,24 +1,83 @@
-<div class="card encounter">
+<div class="card encounter encounter_card">
+  <div class="bg"></div>
+  <button type="button" onclick="hideActiveEncounterCard()" class="btn-close" aria-label="Close"></button>
   <div class="card-body">
-    <h5 class="card-title"><%= encounter.name %> </h5>
-    <p class="card-text"></p>
+    <h2 class="card-title"><%= encounter.name %> </h2>
+    <h5>Intended for <%= encounter.n_players %> level <%= encounter.player_level %> <%= "player".pluralize(encounter.n_players) %> </h5>
+    <%= link_to edit_encounter_path(encounter), class: 'edit_mode' do %>
+      Edit Encounter <i class="material-icons">edit</i>
+    <% end %>
+    <hr>
   </div>
-
-  <div class="row">
-    <div class="col-sm-3">
-      
-    </div>
-    <div class="col-sm-9">
-
-    </div>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
   <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+    <%= form_for("/rooms/#{@campaign.room}/encounters/#{encounter._id.to_s}", method: :put, remote: true, html: {id: 'encounter_form'}) do |f| %>
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Characters</h4>
+          <table class="table initiatives">
+            <tr>
+              <th>Character</th>
+              <th>initiative</th>
+              <th colspan="2">HP</th>
+              <th>AC</th>
+            </tr>
+            <% (encounter.monsters).each do |monster| %>
+              <%= render '/encounters/monster_form_row', monster: monster %>
+            <% end %>
+            <% (encounter.npcs).each do |npc| %>
+              <%= render '/encounters/npc_form_row', npc: npc %>
+            <% end %>
+            <% encounter.characters.each do |character| %>
+                <%= render '/encounters/character_form_row', character: character %>
+            <% end %>
+          </table>
+        </div>
+      </div>
+      <%= submit_tag  (@encounter.started ? 'Update' : 'Start Encounter'), class: 'btn btn-red' %>
+      <button class="btn btn-secondary" onclick="resetEncounter()" type="button">Reset</button>
+    <% end %>
+    <hr>
+    <p class="card-text">
+      Notes
+      <textarea style="width: 100%;"><%= encounter.notes %></textarea>
+    </p>
   </div>
 </div>
+
+<%= form_tag("/rooms/#{@campaign.room}/encounters/#{@encounter._id.to_s}", remote: true, method: :put, id: 'reset_encounter_form') do %>
+  <%= hidden_field_tag 'encounter[started]', false %>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function() {
+    $('#encounter_form').on('submit', submitForm);
+    $(".html_monster").on("click", showMonsterCard);
+    $(".html_monster").on("click", showCharacter);
+  })
+
+  <% if @campaign %>
+    function resetEncounter() {
+      Rails.fire($('#reset_encounter_form')[0], 'submit');
+    }
+  <% end %>
+
+  function submitForm() {
+    $('.monster, .character').each(function(i, elem) {
+      var id = $(elem).attr('id');
+      var init = $(elem).find('.monster-initiative, .character-initiative')
+
+      var deltaElem = $(elem).find('.hp')
+
+      var delta = deltaElem.val();
+      delta = delta ? parseInt(delta) : 0
+      if(!deltaElem.val().match(/[\+\-]/)) {
+        delta *= -1;
+      }
+      var currentHealth = parseInt($(elem).find('.current_health').text());
+      currentHealth += delta
+      deltaElem.val(currentHealth);
+    })
+    // Rails.fire($('#encounter_form')[0], 'submit');
+  }
+</script>

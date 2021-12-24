@@ -10,13 +10,34 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :book %>
-    <%= form.text_field :book %>
+  <table class="table">
+    <tr>
+      <th><%= form.label :name %> </th>
+      <td><%= form.text_field :name, class: 'form-control', required: true %> </td>
+    </tr>
+    <% character.drop_downs.each do |drop_down| %>
+      <tr>
+        <th><%= form.label drop_down.field_name %></th>
+        <td><%= form.select drop_down.field_name, options_from_collection_for_select(drop_down.all, 'id', 'name', selected: [drop_down.selected(character)]), {include_blank: "Select #{drop_down.split_name}"}, class: 'form-control', required: true %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <th><%= form.label :hit_points %></th>
+      <td><%= form.number_field :hit_points, class: 'form-control', required: true %></td>
+    </tr>
+    <tr>
+      <th><%= form.label :armor_class %></th>
+      <td><%= form.number_field :armor_class, class: 'form-control', required: true %></td>
+    </tr>
+  </table>
+  <div class="row">
+    <div class="form-group  col-sm-4">
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <br>
+  <%= hidden_field_tag :redirect, @redirect %> 
+  <div class="form-group">
+    <%= form.submit nil, class: 'btn btn-red' %>
   </div>
 <% end %>

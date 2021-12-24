@@ -3,7 +3,7 @@ class CharactersController < ApplicationController
 
   # GET /characters or /characters.json
   def index
-    @characters = Character.all
+    @characters = current_user.characters
   end
 
   # GET /characters/1 or /characters/1.json
@@ -13,6 +13,7 @@ class CharactersController < ApplicationController
   # GET /characters/new
   def new
     @character = Character.new
+    @redirect = params[:redirect]
   end
 
   # GET /characters/1/edit
@@ -22,10 +23,12 @@ class CharactersController < ApplicationController
   # POST /characters or /characters.json
   def create
     @character = Character.new(character_params)
-
     respond_to do |format|
       if @character.save
-        format.html { redirect_to @character, notice: "Character was successfully created." }
+        redirect = params[:redirect] ? params[:redirect] : edit_character_path
+        set_object_character_params
+        @character.save
+        format.html { redirect_to redirect, notice: "Character was successfully created." }
         format.json { render :show, status: :created, location: @character }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +41,9 @@ class CharactersController < ApplicationController
   def update
     respond_to do |format|
       if @character.update(character_params)
-        format.html { redirect_to @character, notice: "Character was successfully updated." }
+        set_object_character_params
+        @character.save
+        format.html { redirect_to edit_character_path(@character), notice: "Character was successfully updated." }
         format.json { render :show, status: :ok, location: @character }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -64,6 +69,15 @@ class CharactersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def character_params
-      params.require(:character).permit(:book)
+      params.require(:character).permit(:hit_points, :armor_class, :name)
+    end
+
+    def set_object_character_params
+      _p = params.require(:character).permit(:race, :character_class, :alignment)
+      @character.set_race(_p[:race])
+      @character.set_character_class(_p[:character_class])
+      @character.set_alignment(_p[:alignment])
+      @character.user_id = current_user.id
+      # @character._type = 'Character'
     end
 end

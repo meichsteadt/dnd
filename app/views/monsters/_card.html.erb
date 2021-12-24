@@ -50,6 +50,15 @@
   </table>
   <hr>
 
+  <!-- NPC description -->
+  <% if monster.description %>
+  <h4>Description</h4>
+  <p class="description">
+    <%= monster.description %>
+  </p>
+  <hr>
+  <% end %>
+
   <!-- Skills, Senses, languages, challenge -->
   <p>
     <!-- Skills/Proficiency -->
@@ -59,25 +68,25 @@
     <% end %>
 
     <!-- Damage Resistances -->
-    <% if monster.damage_resistances.any? %>
+    <% if monster.damage_resistances && monster.damage_resistances.any? %>
       <strong>Damage Resistances</strong> <%= monster.damage_resistances.join(", ") %>
       <br>
     <% end %>
 
     <!-- Damage Immunities -->
-    <% if monster.damage_immunities.any? %>
+    <% if monster.damage_immunities && monster.damage_immunities.any? %>
       <strong>Damage Immunities</strong> <%= monster.damage_immunities.join(", ") %>
       <br>
     <% end %>
 
     <!-- Condition Immunities -->
-    <% if monster.condition_immunities.any? %>
+    <% if monster.condition_immunities && monster.condition_immunities.any? %>
       <strong>Condition Immunities</strong> <%= monster.condition_immunities.map {|e| e['name']}.join(", ") %>
       <br>
     <% end %>
 
     <!-- Senses -->
-    <% if !monster.parse_senses.empty? %>
+    <% if monster.senses && !monster.parse_senses.empty? %>
       <strong>Senses</strong> <%= monster.parse_senses %>
       <br>
     <% end %>
@@ -89,7 +98,7 @@
     <% end %>
 
     <!-- Challenge/XP -->
-    <strong>Challenge </strong><span class="std_text"><%= monster.challenge %> (<%= monster.xp %> XP)</span>
+    <strong>Challenge </strong><span class="std_text"><%= monster.xp && monster.challenge %> (<%= monster.xp %> XP)</span>
   </p>
   <hr>
 

@@ -1,6 +1,12 @@
 <h1><%= @campaign.name %> <%= link_to edit_campaign_path(@campaign), class: 'edit_mode' do %> <i class="material-icons">edit</i>  <% end %> </h1>
+<p>Room#: <%= link_to @campaign.room, room_path(@campaign.room), target: '_blank' %></p>
+<p onclick="showNotes()" class="btn-link brown-text">Notes</p>
 <p><em><%= @campaign.desc %> </em></p>
 <hr>
+
+<div>
+  <%= render 'notes', campaign: @campaign %>
+</div>
 
 <div class="row">
   <div class="col-sm-3">
@@ -36,6 +42,14 @@
 </div>
 
 <script type="text/javascript">
+  var room = joinRoom('<%= @campaign.room %>', null);
+
+  $(function() {
+    function updateTransition() {
+      console.log(123)
+    }
+  })
+
   function toggleCollapse(bookId) {
     $(function () {
       $('#book_' + bookId + '_collapse').collapse(`toggle`);
@@ -51,5 +65,30 @@
 
   function navigateToPageById(pageId, chapterId) {
     $.get('/chapters/'+ chapterId + '/pages/' + pageId + '.js');
+  }
+
+  function showNotes() {
+    $('.overlay').addClass('active');
+    $('.overlay').on("click", hideNotes);
+    $("#notes").addClass('activating');
+    $("#notes").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
+      $("#notes").addClass('active');
+      $("#notes").removeClass('activating');
+      $("#notes").off('transitionend webkitTransitionEnd oTransitionEnd')
+    });
+    $('body').addClass('overlay-active');
+
+  }
+
+  function hideNotes() {
+    $('.overlay').removeClass('active');
+    $('.overlay').off("click", hideNotes);
+    $('#notes').removeClass('active');
+    $('#notes').addClass('deactivating');
+    $("#notes").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
+      $("#notes").removeClass('deactivating');
+      $("#notes").off('transitionend webkitTransitionEnd oTransitionEnd')
+      $('body').removeClass('overlay-active');
+    });
   }
 </script>

@@ -1,0 +1,23 @@
+<% @timestamp = Time.now.strftime("%Y%m%d%H%M%S%L") %>
+<tr id="<%= monster.id.to_s %>">
+  <td class="difficulty"><%= monster.monster.xp %></td>
+  <td>
+    <%= select_tag 'encounter[encounter_monsters[]monster_id]', options_from_collection_for_select(Monster.all, "id", "name", :selected => [monster.monster._id.to_s]), class: 'form-control monster_select', id: @timestamp, onchange: 'selectMonster(this)' %>
+  </td>
+  <td class="hp"><%= number_field_tag 'encounter[encounter_monsters[]hp]', monster.current_health, class: "form-control" %></td>
+  <!-- <td></td> -->
+  <td>
+    <%= select_tag 'encounter[encounter_monsters[]currency_type]', options_for_select(Currency.types, selected: monster.loot_currency.type), class: 'form-control' %>
+  </td>
+  <td>
+    <%= number_field_tag 'encounter[encounter_monsters[]currency_amount]', monster.loot_currency.amount, class: "form-control" %>
+  </td>
+  <td><i class="material-icons btn-link" onclick="removeRow(this)">delete</i></td>
+</tr>
+<script type="text/javascript">
+
+  $(function () {
+    $("#<%= @timestamp %>").select2();
+    selectMonster($('.monster_select')[0]);
+  })
+</script>

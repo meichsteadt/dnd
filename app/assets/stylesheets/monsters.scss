@@ -4,14 +4,37 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 100;
   transform: translate(-50%, -50%);
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: scroll;
   border-radius: 10px;
 }
 
-.monster_card {
+#monster_card {
+  z-index: 1001;
+}
+
+#encounter_card {
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: none;
+  direction:rtl;
+
+
+  .card {
+    direction:ltr;
+  }
+
+  &.active {
+    max-height: 100vh;
+    min-height: 100vh;
+    height: 100vh;
+  }
+}
+
+.monster_card, .encounter_card {
   color: $red;
   position: relative;
   padding: 20px;
@@ -80,4 +103,12 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.encounter_card {
+  color: $dark-brown !important;
+}
+
+.description {
+  white-space: break-spaces;
 }

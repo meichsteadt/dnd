@@ -1,0 +1,72 @@
+<% (@encounter.monsters).each do |monster| %>
+  var elem = $('tr#<%=monster._id.to_s %>');
+  <% if @encounter.started %>
+    var init = elem.find($('input[name="encounter[encounter_monsters[]initiative]"]'))
+    var hpInput = elem.find($('input[name="encounter[encounter_monsters[]current_health]"]'))
+    var currentHealth = elem.find($('.current_health'))
+    var monsterHealth = parseInt("<%= monster.get_health %>")
+    if(monsterHealth <= 0) {
+      currentHealth.text(0);
+      elem.addClass('dead');
+    }
+    else {
+      currentHealth.text('<%= monster.get_health %>');
+      elem.removeClass('dead');
+    }
+    init.parent().html('<%= monster.initiative %>')
+    hpInput.val('');
+  <% else %>
+    html = `<%= render '/encounters/monster_form_row', monster: monster %>`
+    elem.replaceWith(html)
+  <% end %>
+
+<% end %>
+<% (@encounter.npcs).each do |npc| %>
+  var elem = $('tr#<%=npc._id.to_s %>');
+  <% if @encounter.started %>
+    var init = elem.find($('input[name="encounter[encounter_npcs[]initiative]"]'))
+    var hpInput = elem.find($('input[name="encounter[encounter_npcs[]current_health]"]'))
+    var currentHealth = elem.find($('.current_health'))
+    var npcHealth = parseInt("<%= npc.get_health %>")
+    if(npcHealth <= 0) {
+      currentHealth.text(0);
+      elem.addClass('dead');
+    }
+    else {
+      currentHealth.text('<%= npc.get_health %>');
+      elem.removeClass('dead');
+    }
+    init.parent().html('<%= npc.initiative %>')
+    hpInput.val('');
+  <% else %>
+    html = `<%= render '/encounters/npc_form_row', npc: npc %>`
+    elem.replaceWith(html)
+  <% end %>
+<% end %>
+
+<% @encounter.characters.each do |character| %>
+  var elem = $('tr#<%=character._id.to_s %>');
+
+
+  <% if @encounter.started %>
+    var init = elem.find($('input[name="encounter[characters[]initiative]"]'))
+    var hpInput = elem.find($('input[name="encounter[characters[]current_health]"]'))
+    var currentHealth = elem.find($('.current_health'))
+    var characterHealth = parseInt("<%= character.get_health %>")
+    init.parent().html('<%= character.initiative %>')
+    if(characterHealth <= 0) {
+      currentHealth.text(0);
+      elem.addClass('dead');
+    }
+    else {
+      currentHealth.text('<%= character.get_health %>');
+      elem.removeClass('dead');
+    }
+    hpInput.val('');
+  <% else %>
+    html = `<%= render '/encounters/character_form_row', character: character %>`
+    elem.replaceWith(html)
+  <% end %>
+
+<% end %>
+$.get(`/rooms/<%= @campaign.room %>/encounters/<%= @encounter._id.to_s %>.js?readonly=true&target=current_encounter&start_encounter=true`)

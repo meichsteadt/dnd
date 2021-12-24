@@ -1,1 +1,6 @@
-console.log("easdfasdf")
+<% if @readonly %>
+  $("#<%= @target %>").html(`<%= render './encounters/encounter_readonly', encounter: @encounter %> `)
+<% else %>
+  $("#<%= @target %>").html(`<%= render './encounters/encounter', encounter: @encounter %> `)
+  $("#<%= @target %>").addClass('active');
+<% end %>

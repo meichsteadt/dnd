@@ -7,6 +7,10 @@ class Level
 	field :features, type: Array
 	field :class_specific, type: Hash
 	field :index, type: String
-	field :class, type: Hash
+	field :character_class, type: Hash
 	field :url, type: String
+
+  def name
+    self.level
+  end
 end

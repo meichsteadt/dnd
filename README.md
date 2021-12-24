@@ -25,11 +25,8 @@ Things you may want to cover:
 
 
 <!-- To Do -->
-- Create a combat/initiative engine
-  - Create instances of monsters within combat instance. This way you can add loot/etc to them.
-- Include magic items
+- Add save button to maps
 
 <!-- Ideas -->
 - Tie in random name generator (either from Fantasynamesgenerators or DnDBeyond)
 - Tie in character sheet creator from dndB
-- Tie in Map generator Inkarnate

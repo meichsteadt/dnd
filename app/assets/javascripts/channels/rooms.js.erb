@@ -1,0 +1,42 @@
+//= require cable
+//= require_self
+//= require_tree .
+
+this.App = {};
+
+App.cable = ActionCable.createConsumer();
+
+function joinRoom(roomId, characterId) {
+  return App.Room = App.cable.subscriptions.create({channel: 'RoomsChannel', room: roomId, character_id: characterId},  {
+    disconnected() {
+      App.Room.unsubscribe();
+    },
+    received(data) {
+      this.updateRoom();
+      // if(data["encounter_id"]) {
+      //   this.updateEncounter(data["encounter_id"])
+      // }
+    },
+    updateEncounter(encounterId) {
+      $.get(`/rooms/${roomId}/encounters/${encounterId}.js?readonly=true&target=current_encounter`)
+    },
+    updateRoom() {
+      $.get(`/rooms/${roomId}.js`)
+    },
+
+    updateHealth(id, health) {
+      var tr = $("#monster_row_" + id)
+      if(health <= 0 ) {
+        tr.addClass('dead');
+        tr.find('.hp').text(0);
+      }
+      else {
+        tr.removeClass('dead');
+        tr.find('.hp').text(health);
+      }
+    },
+    updatePlayers(players, dmId) {
+      $.get(`/rooms/${roomId}.js`);
+    }
+  });
+}

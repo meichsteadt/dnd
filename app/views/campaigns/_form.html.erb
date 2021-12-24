@@ -1,4 +1,4 @@
-<%= form_with(model: campaign, local: true) do |form| %>
+<%= form_with(model: campaign, local: true, html: {class: 'wysiwyg'}) do |form| %>
   <% if campaign.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(campaign.errors.count, "error") %> prohibited this campaign from being saved:</h2>
@@ -18,7 +18,19 @@
     </div>
     <div class="form-group">
       <%= form.label :desc %>
-      <%= form.text_area :desc, rows: 5, class: 'form-control' %>
+      <%= form.text_field :desc, class: 'form-control' %>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label :notes %>
+          <%= form.text_area :notes, rows: 5, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="page_text" class="card-text"><%= campaign.parsed_html.html_safe %></div>
+      </div>
     </div>
     <br>
     <div class="form-group">
@@ -26,3 +38,17 @@
     </div>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function() {
+    $('.wysiwyg textarea').focusout(function () {
+      lastCursorPosition = currentSelection();
+    })
+    $('.wysiwyg').on("keydown", e => {
+      handleKeyDown(e);
+    });
+    $('.wysiwyg').on("keyup", e => {
+      handleKeyUp(e);
+    });
+  })
+</script>

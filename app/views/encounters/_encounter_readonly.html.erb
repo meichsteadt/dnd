@@ -1,0 +1,25 @@
+<div class="card encounter encounter_card">
+  <div class="bg"></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>Encounter</h4>
+        <table class="table initiatives">
+          <tr>
+            <th>Character</th>
+            <th>HP</th>
+            <th>Initiative</th>
+          </tr>
+          <% encounter.encounter_characters.each do |character| %>
+            <tr id="<%= character.name %>" class="character-initiative <%= 'dead' if character.get_health <= 0 %>">
+              <td><%= character.name %></td>
+              <td><%= (character.class == EncounterMonster && character._type != 'EncounterNpc') ? (character.get_health <= 0 ? 0 : '???') : character.get_health %> </td>
+              <td><%= character.initiative %> </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

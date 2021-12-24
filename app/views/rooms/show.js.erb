@@ -1,0 +1,8 @@
+var playerElems = ``;
+<% @players.each do |character| %>
+  playerElems += `<%= render 'rooms/player', character: character %> `
+<% end %>
+$("#players").html(playerElems)
+
+console.log("showing")
+$("#current_display").html(`<%= render @campaign.get_active_display_partial, @campaign.get_active_display_hash %> `)
