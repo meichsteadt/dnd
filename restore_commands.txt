@@ -1,2 +1,6 @@
+mongodump -d <database_name> -o <directory_backup>
 mongorestore -d 5e-database ./dump/5e-database
+
+
+pg_dump -Fc --no-acl --no-owner dnd-campaign-tool_development > mydb.dump
 pg_restore --verbose --clean --no-acl --no-owner -d dnd-campaign-tool_development mydb.dump
