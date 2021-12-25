@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"5d9ec346f45d4cab8c9961a2a3507d55","collectionName":"weapon_properties","type":"collection"}

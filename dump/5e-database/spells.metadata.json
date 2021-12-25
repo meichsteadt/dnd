@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"9068c8f365604ea3a3ff5aa276c02761","collectionName":"spells","type":"collection"}
